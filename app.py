@@ -13,9 +13,9 @@ def init_firebase():
         if os.path.exists(".streamlit/secrets.toml"):
             firebase_config = dict(st.secrets["firebase"])
 
-            # 🔥 private_key 줄바꿈 문제 해결
-            if "\\n" in firebase_config["private_key"]:
-                firebase_config["private_key"] = firebase_config["private_key"].replace("\\n", "\n")
+            # # 🔥 private_key 줄바꿈 문제 해결
+            # if "\\n" in firebase_config["private_key"]:
+            #     firebase_config["private_key"] = firebase_config["private_key"].replace("\\n", "\n")
 
             print("local")
             sys.stdout.flush()
