@@ -17,7 +17,7 @@ def init_firebase():
             if "\\n" in firebase_config["private_key"]:
                 firebase_config["private_key"] = firebase_config["private_key"].replace("\\n", "\n")
 
-            #print(firebase_config)
+            print("local")
             sys.stdout.flush()
             cred = credentials.Certificate(firebase_config)
         else:
