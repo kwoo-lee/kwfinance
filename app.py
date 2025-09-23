@@ -54,7 +54,7 @@ def init_firebase():
         st.stop()  # 앱 실행 중단
 
 # Firebase초기화 시도
-print("kwanwoo finance app start!!!!")
+print("kwanwoo finance app start2!!!!")
 sys.stdout.flush()
 init_firebase()
 
