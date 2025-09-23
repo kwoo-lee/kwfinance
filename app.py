@@ -1,10 +1,8 @@
 import firebase_admin
-import os
+import os, tempfile,sys, json
 from firebase_admin import credentials, firestore
 import streamlit as st
 import accountbook
-import sys
-import json
 
 def init_firebase():
     try:
@@ -16,9 +14,14 @@ def init_firebase():
             # Streamlit Cloud의 Secrets 사용
             if "firebase" in st.secrets:
                 firebase_config = dict(st.secrets["firebase"])
+                # 임시 파일에 JSON 저장
+                with tempfile.NamedTemporaryFile(mode="w+", delete=False) as f:
+                    json.dump(firebase_config, f)
+                    temp_path = f.name
+                
                 print(firebase_config)
                 sys.stdout.flush()
-                cred = credentials.Certificate(firebase_config)
+                cred = credentials.Certificate(temp_path)
             else:
                 print("cannot find secrets")
                 sys.stdout.flush()
@@ -26,8 +29,8 @@ def init_firebase():
                 firebase_config = json.loads(os.environ["FIREBASE_KEY"])
                 cred = credentials.Certificate(firebase_config)
 
-            if not firebase_admin._apps:
-                firebase_admin.initialize_app(cred)
+        if not firebase_admin._apps:
+            firebase_admin.initialize_app(cred)
     except Exception as e:
         # 화면에 에러 메시지 출력 후 앱 중단
         st.markdown(
