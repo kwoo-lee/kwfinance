@@ -7,13 +7,30 @@ import accountbook
 def init_firebase():
     try:
         # --- Firestore 연결 (앱 최초 실행 시만 초기화) ---
-        if os.path.exists("firebase-key.json"):
+        # if os.path.exists("firebase-key.json"):
+        #     sys.stdout.flush()
+        #     cred = credentials.Certificate("firebase-key.json")
+        if os.path.exists(".streamlit/secrets.toml"):
+            firebase_config = dict(st.secrets["firebase"])
+
+            # 🔥 private_key 줄바꿈 문제 해결
+            if "\\n" in firebase_config["private_key"]:
+                firebase_config["private_key"] = firebase_config["private_key"].replace("\\n", "\n")
+
+            #print(firebase_config)
             sys.stdout.flush()
-            cred = credentials.Certificate("firebase-key.json")
+            cred = credentials.Certificate(firebase_config)
         else:
             # Streamlit Cloud의 Secrets 사용
             if "firebase" in st.secrets:
                 firebase_config = dict(st.secrets["firebase"])
+
+                # 🔥 private_key 줄바꿈 문제 해결
+                if "\\n" in firebase_config["private_key"]:
+                    firebase_config["private_key"] = firebase_config["private_key"].replace("\\n", "\n")
+
+                print(firebase_config)
+
                 print(firebase_config)
                 sys.stdout.flush()
                 cred = credentials.Certificate(firebase_config)
