@@ -25,4 +25,5 @@ kwfinance/
 
 # Firebase 키 (민감정보)
 firebase-key.json
+firebase-auth.json
 secrets.toml
