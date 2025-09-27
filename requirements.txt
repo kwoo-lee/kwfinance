@@ -3,3 +3,4 @@ firebase-admin
 google-cloud-firestore
 pandas
 pyrebase4
+setuptools>=70.0
